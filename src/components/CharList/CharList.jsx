@@ -1,37 +1,11 @@
 import "./charList.scss";
 
-import { useEffect, useState } from "react";
-
 import Female from "../../resources/svg/female.svg";
 import Male from "../../resources/svg/male.svg";
 import { ReactComponent as Star } from "../../resources/svg/star.svg";
-import axios from "axios";
 
-const CharList = () => {
-  const [charList, setCharList] = useState([]);
-  const [favoriteChar, setFavoriteChar] = useState([]);
-
-  useEffect(() => {
-    onRequest();
-  }, []);
-
-  const onRequest = () => {
-    axios
-      .get("https://rickandmortyapi.com/api/character")
-      .then(res => {
-        res.data.results.forEach((hero,i) =>
-          axios.get(hero.episode[hero.episode.length - 1]).then((episode) => {
-            let newHero = hero;
-
-            newHero.episodeLast = episode.data.episode;
-
-            setCharList((state) => JSON.stringify(state)!== JSON.stringify(newHero)?[...state, newHero]: console.log(state));
-          })
-        );
-      });
+const CharList = ({charList, onClick, favoriteChar}) => {
   
-  };
-  console.log(charList);
   function renderItem(charList) {
     const items = charList.map((item, i) => {
       if (i < 10) {
@@ -53,7 +27,7 @@ const CharList = () => {
                 alt=""
                 className="char__list--body"
               />
-              {item.gender}{" "}
+              {item.gender}
             </div>
             <div className="char__list--body">{item.species}</div>
             <div className="char__list--body">{item.episodeLast}</div>
@@ -73,11 +47,7 @@ const CharList = () => {
   }
 
   const addToFavorite = (char) => {
-    if (!favoriteChar.includes(char)) {
-      setFavoriteChar([...favoriteChar, char]);
-    } else {
-      setFavoriteChar([...favoriteChar.filter((item) => item !== char)]);
-    }
+    onClick(char)
   };
 
   return (

@@ -1,18 +1,27 @@
 .nav__container{
   display: flex;
-  align-items: center;
+ 
   justify-content: flex-start;
   padding: 30px 0px;
+  flex-direction: column;
+  
 }
 
 .nav__menu--link{
+  
   &:not(:last-child) {
     margin-right: 30px;
   }
 }
 
-.active{
-  transition: all .3s ease;
+.react-tabs__tab{
+  cursor: pointer;
+  margin-bottom: 39px;
+  &:not(:last-child) {
+    margin-right: 30px;
+  }
+  &--selected{
+    transition: all .3s ease;
   position: relative;
   display: block;
   line-height: 24px;
@@ -22,12 +31,21 @@
     content: "";
     display: block;
     position: absolute;
-    width: 0;
+    width: 1px;
     height: 3px;
     background: #11b0c8;
     bottom: -3px;
     left: 50%;
     transform: translateX(-50%);
-    width: 100%
+    width: 100%;
+    opacity: 1;
   }
+}}
+
+
+.react-tabs__tab-list{
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
 }
