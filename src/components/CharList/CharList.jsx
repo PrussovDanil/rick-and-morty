@@ -13,27 +13,27 @@ const CharList = ({charList, onClick, favoriteChar}) => {
         return (
           <div key={i} className="char__table--body">
             <div
-              className={`char__list--body char__list--container ${
+              className={`char__list char__list--container ${
                 item.status === "Alive" ? null : "char--dead"
               }`}
             >
               <img src={item.image} alt="" className="char__list--img" />
             </div>
-            <div className="char__list--body">{item.id}</div>
-            <div className="char__list--body">{item.name}</div>
-            <div className="char__list--body">
+            <div className="char__list">{item.id}</div>
+            <div className="char__list">{item.name}</div>
+            <div className="char__list">
               <img
                 src={item.gender === "Male" ? Male : Female}
                 alt=""
-                className="char__list--body"
+                className="char__list"
               />
               {item.gender}
             </div>
-            <div className="char__list--body">{item.species}</div>
-            <div className="char__list--body">{item.episodeLast}</div>
+            <div className="char__list">{item.species}</div>
+            <div className="char__list">{item.episodeLast}</div>
             <button
               onClick={() => addToFavorite(item)}
-              className="char__list--body"
+              className="char__list"
             >
               <Star className={favoriteChar.includes(item)? 'star': ''} />
             </button>

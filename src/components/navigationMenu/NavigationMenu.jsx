@@ -6,31 +6,52 @@ import { useEffect, useState } from "react";
 import CharList from '../CharList/CharList'
 import axios from "axios";
 
-const NavigationMenu = () => {
+const NavigationMenu = ({filter}) => {
   const [charList, setCharList] = useState([]);
   const [favoriteChar, setFavoriteChar] = useState([]);
 
   useEffect(() => {
     onRequest();
-    
+  
   }, []);
+ 
+  const onFilter = (filter) =>{
+
+    switch (filter.filter) {
+      case 'name':
+        return  charList.filter( item => item.name.toLowerCase().indexOf(filter.input.toLowerCase()) !== -1 )
+        
+      case 'species':
+        return  charList.filter(item => item.species.toLowerCase().indexOf(filter.input.toLowerCase()) !== -1)
+        
+      case 'gender':
+        return  charList.filter( (item) => item.gender.toLowerCase().indexOf(filter.input.toLowerCase()) !== -1)
+        
+      default:
+        return charList
+       
+    }
+    
+    
+  }  
 
   const onRequest = () => {
     axios
       .get("https://rickandmortyapi.com/api/character")
       .then(res => {
-        res.data.results.forEach((hero,i) =>
+        res.data.results.forEach((hero) =>
           axios.get(hero.episode[hero.episode.length - 1]).then((episode) => {
             let newHero = hero;
 
             newHero.episodeLast = episode.data.episode;
 
-            setCharList((state) => JSON.stringify(state)!== JSON.stringify(newHero)?[...state, newHero]: console.log(state));
+            setCharList((state) => [...state, newHero])
           })
         );
       });
   
   };
+
   const addToFavorite = (char) => {
     if (!favoriteChar.includes(char)) {
       setFavoriteChar([...favoriteChar, char]);
@@ -38,9 +59,7 @@ const NavigationMenu = () => {
       setFavoriteChar([...favoriteChar.filter((item) => item !== char)]);
     }
   };
-  
-  
-  console.log(charList);
+
   return (
     <div className="nav__menu">
       <Tabs className="nav__container">
@@ -49,7 +68,7 @@ const NavigationMenu = () => {
           <Tab >Favorites</Tab>
         </TabList>
         <TabPanel >
-          <CharList charList={charList} favoriteChar={favoriteChar} onClick={addToFavorite}/>
+          <CharList charList={filter.input !== ''? onFilter(filter) : charList} favoriteChar={favoriteChar} onClick={addToFavorite}/>
         </TabPanel>
         <TabPanel>
           <CharList charList={favoriteChar} favoriteChar={favoriteChar} onClick={addToFavorite}/>

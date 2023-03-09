@@ -1,11 +1,12 @@
 .header{
   border-bottom: 1px solid #e5eaf4;
+  padding: 32px 0px;
 }
 
 .header__container{
   display: flex;
   align-items: center;
-  padding: 32px 0px;
+  
   gap: 50px;
 }
 
