@@ -136,8 +136,11 @@ body {
 @import "base";
 
 // Подключение стилей общих элементов проекта
-
-
+@import "./styleComponents/appHeader.scss";
+@import "./styleComponents/charList.scss";
+@import "./styleComponents/footer.scss";
+@import "./styleComponents/navigationMenu.scss";
+@import "./styleComponents/modal.scss";
 // Подключение стилей отдельных блоков
 
 

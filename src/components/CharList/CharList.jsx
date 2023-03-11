@@ -1,15 +1,40 @@
-import "./charList.scss";
-
 import Female from "../../resources/svg/female.svg";
+import Genderless from "../../resources/svg/Genderless.svg";
 import Male from "../../resources/svg/male.svg";
+import Modal from "../modal";
 import { ReactComponent as Star } from "../../resources/svg/star.svg";
+import Unknown from "../../resources/svg/Unknown.svg";
+import { useState } from "react";
 
 const CharList = ({charList, onClick, favoriteChar}) => {
-  
+  const [open, setOpen] = useState(false);
+  const [hero, setHero] = useState()
+  const iconGender = (gender) =>{
+    switch (gender) {
+      case 'Male':
+        return Male
+      case 'Genderless':
+        return Genderless
+      case 'Female':
+        return Female
+      case 'unknown':
+        return Unknown
+        
+      default:
+        break;
+    }
+  }
+  const modalWindow = (item) => {
+    let screen = window.screen.width;
+   
+    if(screen<= 992){
+      setHero(item)
+      setOpen(true)
+    }
+  }
+ 
   function renderItem(charList) {
     const items = charList.map((item, i) => {
-      if (i < 10) {
-
         return (
           <div key={i} className="char__table--body">
             <div
@@ -20,12 +45,13 @@ const CharList = ({charList, onClick, favoriteChar}) => {
               <img src={item.image} alt="" className="char__list--img" />
             </div>
             <div className="char__list">{item.id}</div>
-            <div className="char__list">{item.name}</div>
+            <div className="char__list char__list--name" onClick={()=> modalWindow(item)} >{item.name}</div>
+            
             <div className="char__list">
               <img
-                src={item.gender === "Male" ? Male : Female}
+                src={iconGender(item.gender)}
                 alt=""
-                className="char__list"
+                className="char__list--gender"
               />
               {item.gender}
             </div>
@@ -39,9 +65,7 @@ const CharList = ({charList, onClick, favoriteChar}) => {
             </button>
           </div>
         );
-      } else {
-        return null;
-      }
+      
     });
     return items;
   }
@@ -64,6 +88,7 @@ const CharList = ({charList, onClick, favoriteChar}) => {
             <li className="char__list">Add To Favorites</li>
           </ul>
           {renderItem(charList)}
+          {open ? <Modal item={hero} setOpen={setOpen} favoriteChar={favoriteChar} onClick={onClick}/> : null}
         </div>
       </div>
     </div>

@@ -5,6 +5,7 @@
   display: flex;
   justify-content: flex-start;
   flex-direction: column;
+ 
 }
 
 .nav__menu--link {
@@ -17,7 +18,13 @@
 .react-tabs__tab {
   cursor: pointer;
   margin-bottom: 39px;
-  border-bottom: 3px solid #fff;
+  &::after{
+    display: block;
+    position: absolute;
+    content: "";
+    height: 0px;
+    width: 0%;
+  }
 
   &:not(:last-child) {
     margin-right: 30px;
@@ -29,9 +36,18 @@
     display: block;
     line-height: 24px;
     color: #11b0c8;
-    border-bottom: 3px solid #11b0c8;
     transition: all .5s ease;
-
+    &::after{
+      display: block;
+      position: absolute;
+      background-color: #11b0c8; /*задаём цвет линии*/
+      content: "";
+      left: 50%;
+      height: 2px;
+      width: 100%;
+      transition: all 0.5s ease-in-out; 
+      transform: translateX(-50%);
+    }
   }
 }
 
@@ -41,4 +57,8 @@
   align-items: center;
   justify-content: flex-start;
   gap: 20px;
+  @media (max-width:$tablet){
+    justify-content: center; 
+    align-items: center;
+ }
 }

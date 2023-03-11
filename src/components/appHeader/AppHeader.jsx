@@ -1,4 +1,4 @@
-import './appHeader.scss'
+import '../../style/style.scss'
 
 import logo from "../../resources/img/logo.png"
 import search from "../../resources/svg/search.svg"
@@ -20,8 +20,10 @@ const AppHeader = ({onSubmit}) => {
             <option className="search__select" value="species">Species</option>
             <option className="search__select" value="gender">Gender</option>
           </select>
-          <input className="search__box--input" {...register("input")} />
-          <button type= 'submit'><img src={search} alt=""></img></button>
+          <div className="search__box">
+            <input className="search__box--input" {...register("input")} />
+            <button type= 'submit'><img src={search} alt=""></img></button>
+          </div>
         </form>
       </div>
     </div>

@@ -1,19 +1,20 @@
-import "./navigationMenu.scss";
-
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import CharList from '../CharList/CharList'
+import { PageContext } from "../app/App";
 import axios from "axios";
 
 const NavigationMenu = ({filter}) => {
   const [charList, setCharList] = useState([]);
   const [favoriteChar, setFavoriteChar] = useState([]);
+  const {page} = useContext(PageContext)
 
   useEffect(() => {
-    onRequest();
-  
-  }, []);
+      setCharList([])
+      onRequest(page);
+    
+  }, [page]);
  
   const onFilter = (filter) =>{
 
@@ -35,9 +36,9 @@ const NavigationMenu = ({filter}) => {
     
   }  
 
-  const onRequest = () => {
+  const onRequest = (page) => {
     axios
-      .get("https://rickandmortyapi.com/api/character")
+      .get(`https://rickandmortyapi.com/api/character?page=${page}`)
       .then(res => {
         res.data.results.forEach((hero) =>
           axios.get(hero.episode[hero.episode.length - 1]).then((episode) => {

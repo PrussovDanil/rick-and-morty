@@ -1,38 +1,50 @@
-import './footer.scss'
+import { Pagination, PaginationItem, ThemeProvider } from "@mui/material";
 
-import { useEffect, useState } from 'react';
-
-import { ReactComponent as Arrow } from '../../resources/svg/arrow.svg';
-import axios from 'axios';
+import { PageContext } from "../app/App";
+import { createTheme } from "@mui/material";
+import { ReactComponent as nextArrow } from "../../resources/svg/nextArrow.svg";
+import { ReactComponent as prevArrow } from "../../resources/svg/prevArrow.svg";
+import { useContext } from "react";
 
 const Footer = () => {
-  const [test, setTest] = useState([])
-  useEffect(()=> {
-    onRequest()
-  },[])
-  const onRequest = () => {
-    for (let index = 1; index <2; index++) {
-      axios.get(`https://rickandmortyapi.com/api/character?page=${index}`).then(sata => {console.log(sata.data.info);console.log(sata.data.results[1])})
-      
-    }
-  }
-  console.log(test);
-  return(
+  const { page, setPage,filter } = useContext(PageContext);
+  const theme = createTheme({
+    status: {
+      danger: "#e53e3e",
+    },
+    palette: {
+      primary: {
+        main: "#11b0c8",
+        darker: "#053e85",
+      },
+      neutral: {
+        main: "#11b0c8",
+        contrastText: "#fff",
+      },
+    },
+  });
+  return (
     <div className="footer">
       <div className="footer__container">
-        <ul className="pagination">
-          <li className="pagination__number pagination--small"><Arrow/></li>
-          <li className="pagination__number pagination--active">1</li>
-          <li className="pagination__number">2</li>
-          <li className="pagination__number">3</li>
-          <li className="pagination__number">4</li>
-          <li className="pagination__number">...</li>
-          <li className="pagination__number">9</li>
-          <li className="pagination__number pagination--small revers"><Arrow/></li>
-        </ul>
+        <ThemeProvider theme={theme}>
+          <Pagination
+            count={42}
+            shape="rounded"
+            color="neutral"
+            page={page}
+            disabled={filter.input === ''? false : true}
+            onChange={(_, data) => setPage(data)}
+            renderItem={(item) => (
+              <PaginationItem
+                slots={{ previous: prevArrow, next: nextArrow }}
+                {...item}
+              />
+            )}
+          />
+        </ThemeProvider>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default Footer;
